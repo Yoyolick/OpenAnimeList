@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Open Anime List</title>
+        <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+        <link href="css/hover.css" rel="stylesheet" media="all">
+        <link rel="stylesheet" href="style.css">
+        <link rel="icon" href="aqua.png">
+    </head>
+    <body style="background: rgb(93, 81, 255);">
+        <div id="particles-js"></div>
+        <script src="particles.js-master/particles.js"></script> 
+        <script src="particles.js-master/demo/js/app.js"></script> 
+        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+        
+        <!--
+            <div class="settingsCog hvr-shrink">
+                <img src="settings.png" alt="settings icon" width="54.375" height="37.5">
+            </div>
+        -->
+
+        <div class="title">
+            <img width="150" height="150" src="aqua.png" alt="Application Icon" class="titleItem">
+            <h1 class="titleItem">Open Anime List</h1>
+        </div>
+
+        <div class="tabs">
+            <a href="index.html" class="hvr-shrink highlighted tab"><strong>Watching</strong></a>
+            <a href="AdminApps.html" class="hvr-shrink tab"><strong>Planned</strong></a>
+            <a href="AdminApps.html" class="hvr-shrink tab"><strong>Finished</strong></a>
+        </div>
+
+        <div class="browser">
+            <div class="panel" style="width:50%; color: white; font-family: 'Roboto', sans-serif;">
+                <script>
+                    var mysql = require('mysql');
+            
+                    function el(selector) {
+                        return document.getElementById(selector);
+                    }
+            
+                    el('action-btn').addEventListener('click', function(){
+                        getFirstTenRows(function(rows){
+                            var html = '';
+            
+                            rows.forEach(function(row){
+                                html += '<tr>';
+                                html += '<td>';
+                                html += row.uid;
+                                html += '</td>';
+                                html += '<td>';
+                                html += row.animename;
+                                html += '</td>';
+                                html += '</tr>';
+                                console.log(row);
+                            });
+            
+                            document.querySelector('#table > tbody').innerHTML = html;
+                        });
+                    },false);
+            
+                    function getFirstTenRows(callback){
+                        var mysql = require('mysql');
+            
+                        var connection = mysql.createConnection({
+                            host     : 'sql310.byetcluster.com',
+                            user     : 'epiz_27552753',
+                            password : 'jNW1TFmgKh8T0',
+                            database : 'epiz_27552753_openanimelist'
+                        });
+            
+                        connection.connect(function(err) {
+                            if(err){
+                                console.log(err.code);
+                                console.log(err.fatal);
+                            }
+                        });
+            
+                        $query = 'SELECT `uid`,`animename` FROM `entries` LIMIT 1';
+            
+                        connection.query($query, function(err, rows, fields) {
+                            if(err){
+                                console.log("An error ocurred performing the query.");
+                                console.log(err);
+                                return;
+                            }
+            
+                            callback(rows);
+            
+                            console.log("Query succesfully executed");
+                        });
+            
+                        connection.end(function(){});
+                    }
+                </script>
+            </div>
+
+            <div class="panel" style="flex-grow:1">
+                <p>content</p>
+            </div>
+        </div>
+    </body>
+</html>
